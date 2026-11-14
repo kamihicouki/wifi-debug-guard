@@ -6,8 +6,8 @@ android {
   applicationId = "io.github.kamihicouki.wifidebugguard"
   minSdk = 30
   targetSdk = 33
-  versionCode = 3
-  versionName = "1.1.0"
+  versionCode = 4
+  versionName = "1.1.1"
  }
  buildTypes { getByName("release") { isMinifyEnabled = false } }
  compileOptions { sourceCompatibility = JavaVersion.VERSION_17; targetCompatibility = JavaVersion.VERSION_17 }

@@ -4,17 +4,19 @@
   "unconfigured_service_stays_stopped": "passed",
   "wireless_debugging_unchanged": "passed",
   "original_install_unchanged": "passed",
-  "version": "1.1.0",
+  "version": "1.1.1",
   "date": "2026-11-14",
-  "policy_tests": 16,
+  "policy_tests": 20,
   "build_debug": "passed",
   "build_unsigned_release": "passed",
   "lint_errors": 0,
   "lint_warnings": {
     "OldTargetApi": 1,
     "DataExtractionRules": 1,
-    "SetTextI18n": 5
+    "SetTextI18n": 6
   },
   "public_version_full_on_off_and_reboot_acceptance": "not performed; preserve active device setup",
-  "publication_scan": "20 tracked files; private original values, signing material, absolute paths and raw evidence excluded"
+  "publication_scan": "All tracked public source inspected; private original values, signing material, absolute paths and raw evidence excluded",
+  "carbon_review": "Gemini 4 Carbon Medium; see docs/review.md",
+  "boot_receiver_stub_checks": 8
 }

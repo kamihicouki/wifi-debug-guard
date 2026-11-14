@@ -10,7 +10,8 @@ public final class GuardService extends Service {
  private final Handler handler = new Handler(Looper.getMainLooper());
  private SharedPreferences prefs;
  private String lastStatus = "";
- private final Runnable poll = new Runnable() { public void run() { evaluate(); handler.postDelayed(this,15000); } };
+ private boolean destroyed;
+ private final Runnable poll = new Runnable() { public void run() { if (evaluate()) handler.postDelayed(this,15000); } };
  private final BroadcastReceiver receiver = new BroadcastReceiver() { public void onReceive(Context c, Intent i) { evaluate(); } };
  private final ConnectivityManager.NetworkCallback callback = new ConnectivityManager.NetworkCallback() {
   public void onAvailable(Network n) { handler.post(() -> evaluate()); }
@@ -33,13 +34,23 @@ public final class GuardService extends Service {
   PendingIntent pi=PendingIntent.getActivity(this,0,new Intent(this,MainActivity.class),PendingIntent.FLAG_IMMUTABLE);
   return new Notification.Builder(this,"guard").setSmallIcon(android.R.drawable.stat_sys_data_bluetooth).setContentTitle("Wi-Fi Debug Guard").setContentText(state).setContentIntent(pi).setOngoing(true).build();
  }
- @SuppressWarnings("deprecation") private void evaluate() {
+ @SuppressWarnings("deprecation") private boolean evaluate() {
+  // A queued callback or a sticky restart must not revive stopped management,
+  // nor replace the Activity's warning that disabling debugging failed.
+  if (destroyed) return false;
+  if (!prefs.getBoolean("enabled",false)) {
+   handler.removeCallbacksAndMessages(null);
+   stopSelf();
+   return false;
+  }
   try {
+   boolean locationPermission=checkSelfPermission("android.permission.ACCESS_FINE_LOCATION")==android.content.pm.PackageManager.PERMISSION_GRANTED
+    && checkSelfPermission("android.permission.ACCESS_BACKGROUND_LOCATION")==android.content.pm.PackageManager.PERMISSION_GRANTED;
    WifiManager wm = getSystemService(WifiManager.class);
-   WifiInfo info = wm.getConnectionInfo();
+   WifiInfo info = locationPermission ? wm.getConnectionInfo() : null;
    ConnectivityManager cm=getSystemService(ConnectivityManager.class);
    NetworkInfo ni=cm.getNetworkInfo(ConnectivityManager.TYPE_WIFI);
-   boolean connected=getSystemService(android.location.LocationManager.class).isLocationEnabled() && ni!=null && ni.isConnected() && info!=null && info.getNetworkId()!=-1;
+   boolean connected=locationPermission && getSystemService(android.location.LocationManager.class).isLocationEnabled() && ni!=null && ni.isConnected() && info!=null && info.getNetworkId()!=-1;
    boolean enabled=prefs.getBoolean("enabled",false);
    boolean allowed=NetworkPolicy.allowed(enabled,connected,info==null?null:info.getSSID(),info==null?null:info.getBSSID(),prefs.getString("ssid",null),prefs.getString("bssid",null));
    boolean permission=checkSelfPermission("android.permission.WRITE_SECURE_SETTINGS")==android.content.pm.PackageManager.PERMISSION_GRANTED;
@@ -50,20 +61,26 @@ public final class GuardService extends Service {
     Log.i("WifiDebugGuard","set adb_wifi_enabled="+desired);
    }
    current=Settings.Global.getInt(getContentResolver(),"adb_wifi_enabled",0);
-   String status=!permission?"設定権限が必要です":allowed?(current==1?"指定Wi-Fi：ワイヤレスデバッグ ON":"指定Wi-Fi：有効化要求中（端末の許可を確認）"):current==0?"指定Wi-Fi以外・停止中・接続先不明：OFF":"デバッグOFF要求中（設定を確認）";
-   if (!status.equals(lastStatus)) {
-    Log.i("WifiDebugGuard",status+" connected="+connected+" identityVisible="+(info!=null && !"<unknown ssid>".equals(info.getSSID())));
-    lastStatus=status; getSystemService(NotificationManager.class).notify(1,notification(status));
-   }
-   prefs.edit().putString("status",status).putLong("checked",System.currentTimeMillis()).apply();
+   String status=!permission?"設定権限不足：ON/OFFを制御できません":!locationPermission?(current==0?"位置情報権限不足（正確・常に許可）：設定値OFF":"位置情報権限不足（正確・常に許可）：OFF要求中、端末設定を確認"):allowed?(current==1?"指定Wi-Fi：設定値ON（ADB接続未確認）":"指定Wi-Fi：有効化要求中（端末の許可を確認）"):current==0?"指定Wi-Fi以外・停止中・接続先不明：OFF":"デバッグOFF要求中（設定を確認）";
+   updateStatus(status);
   } catch (RuntimeException e) {
    Log.e("WifiDebugGuard","evaluation failed",e);
    try { if (checkSelfPermission("android.permission.WRITE_SECURE_SETTINGS")==android.content.pm.PackageManager.PERMISSION_GRANTED) Settings.Global.putInt(getContentResolver(),"adb_wifi_enabled",0); }
    catch (RuntimeException ignored) { Log.e("WifiDebugGuard","cannot disable after failure",ignored); }
-   prefs.edit().putString("status","エラー："+e.getClass().getSimpleName()).apply();
+   updateStatus("エラー："+e.getClass().getSimpleName()+"。デバッグOFFは未確認です。端末設定を確認してください");
+  }
+  return true;
+ }
+ private void updateStatus(String status) {
+  prefs.edit().putString("status",status).putLong("checked",System.currentTimeMillis()).apply();
+  if (!status.equals(lastStatus)) {
+   lastStatus=status;
+   Log.i("WifiDebugGuard",status);
+   try { getSystemService(NotificationManager.class).notify(1,notification(status)); }
+   catch (RuntimeException e) { Log.e("WifiDebugGuard","notification update failed",e); }
   }
  }
- @Override public int onStartCommand(Intent i,int flags,int id) { evaluate(); return START_STICKY; }
+ @Override public int onStartCommand(Intent i,int flags,int id) { return evaluate()?START_STICKY:START_NOT_STICKY; }
  @Override public IBinder onBind(Intent i) { return null; }
- @Override public void onDestroy() { handler.removeCallbacksAndMessages(null); unregisterReceiver(receiver); getSystemService(ConnectivityManager.class).unregisterNetworkCallback(callback); super.onDestroy(); }
+ @Override public void onDestroy() { destroyed=true; handler.removeCallbacksAndMessages(null); unregisterReceiver(receiver); getSystemService(ConnectivityManager.class).unregisterNetworkCallback(callback); super.onDestroy(); }
 }

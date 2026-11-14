@@ -13,6 +13,11 @@ public class NetworkPolicyTest {
    check(true,true,"Lab WiFi",b,"Lab WiFi",b,false);
   }
   check(true,true,"Guest","ab:cd:ef:12:34:56","Guest","AB:CD:EF:12:34:56",true);
+  // WifiInfo adds one outer quote pair; the selected value was decoded at registration.
+  check(true,true,"\"\"Lab\"\"","12:34:56:78:9a:bc","\"Lab\"","12:34:56:78:9a:bc",true);
+  check(true,true,"\"\"\"\"","12:34:56:78:9a:bc","\"\"","12:34:56:78:9a:bc",true);
+  check(true,true,"\"\"Lab\"\"","12:34:56:78:9a:bc","Lab","12:34:56:78:9a:bc",false);
+  check(true,true,"\"\"","12:34:56:78:9a:bc","","12:34:56:78:9a:bc",false);
   System.out.println(count+" network policy checks passed");
  }
  static void check(boolean e, boolean c, String s, String b, String ts, String tb, boolean expected) {
