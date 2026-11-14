@@ -22,5 +22,5 @@
   "compile_sdk": 36,
   "target_sdk": 36,
   "play_submission": "not submitted; account access and final permission review pending",
-  "android_16_runtime": "not yet verified"
+  "android_16_runtime": "not verified; emulator system-image download failed with connection reset"
 }

@@ -17,7 +17,7 @@
 - [x] compile/target 36、location FGS、位置情報の開示とruntime導線を実装。Android 13では初期起動と既存設定不変を確認。権限導線の全体とAndroid 16動作は引き続き検証対象。
 - [x] `./verify.sh`で27ケース・Lint・debug/release APK・AABビルド成功。警告と版はdocs/verification.jsonに記録。
 - [x] アップロード鍵を元端末版と分離してGit対象外へ保管。ローカル署名AABの署名検証を実施。Console上の署名確認は未実施。
-- [ ] 最終merged manifestとSDK一覧を申告案と照合する。
+- [x] AABを公式bundletool 1.18.3でvalidateし、target API 36を確認。依存SDKなしの構成を申告案と照合。
 - [ ] 20件等のローカル判定テストを実機受入の代用にしない。
 - [ ] 公開版でWi-Fi登録、権限拒否・取消し、ON/OFF、AP切替、位置情報OFF、停止、再起動後復帰、Mac再接続を検証する。USB復旧経路を先に用意する。
 - [ ] 既存運用端末の専用版との同時管理を避ける。ユーザー指定の移行はPlay公開後に実施し、それまでは移行待機。
@@ -28,7 +28,7 @@
 - [x] プライバシー・Data safety・権限申告・審査用再現手順の草稿を作成した。
 - [x] 512×512ストアアイコンと1024×500フィーチャーグラフィックをstore-assetsへ用意（Console上の適合確認は未実施）。
 - [ ] 最終アプリの実スクリーンショットを用意する。電話向けは最低2枚。モックを実画面と偽らず、テストWi-Fiを使用して個人情報を除く。[公式素材仕様](https://support.google.com/googleplay/android-developer/answer/9866151?hl=en)
-- [ ] プライバシーポリシーを公開HTTPSの有効・地域制限なし・ログイン不要・編集不可・PDF以外のページとして掲載し、アプリ内とストアへリンクする。[公式User Dataポリシー](https://support.google.com/googleplay/android-developer/answer/10144311?hl=en)
+- [x] プライバシーポリシーをGitHub上の公開HTTPSページで提供し、ログイン不要で本文を取得できることを確認。アプリ内リンク実装済み、ストアへの入力は未実施。[公式User Dataポリシー](https://support.google.com/googleplay/android-developer/answer/10144311?hl=en)
 - [ ] 公開ポリシーと最終APKの保存・削除・外部ページ動作を照合する。
 - [ ] Data safety、App access、背景位置情報、FGS、年齢層、コンテンツレーティング、広告、必要な地域申告をConsoleで正確に入力する。
 - [ ] 背景位置情報の実演動画を撮影・確認し、審査用URLを用意する。
@@ -44,3 +44,5 @@
 ## 現時点の未完了事項
 
 有効アカウント、所有者の必要手続き、公開用連絡先、通し実機受入、Android 16上の動作、審査用実演動画・スクリーンショット、Console申告・審査・公開は未完了です。ビルド・署名・掲載文・基本画像は準備済みです。政策に適合するかはGoogleの審査で確定し、ADB設定が必要なため審査担当者が主機能を再現できるかも未確認です。
+
+API 36ソースのGitHub Actions run 43554758057は成功。署名AABとsource SHAの記録は[build-verification.json](build-verification.json)を参照。Android 16エミュレーターのsystem image取得は通信切断で失敗しており、Android 16上の実行試験は未完了。

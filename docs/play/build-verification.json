@@ -1,0 +1,17 @@
+{
+  "version": "1.2.0",
+  "version_code": 5,
+  "source_commit": "dc65db138a328ba1d7fc4f8089ccb80bb0535287",
+  "target_sdk": 36,
+  "signed_upload_aab": {
+    "sha256": "18f4ea1767369fc96b3f2e1cbb8d806725d64db22325e939b49ad3c67b82aedd",
+    "bytes": 23073,
+    "jarsigner": "verified; self-signed upload certificate",
+    "bundletool_version": "1.18.3",
+    "bundletool_validate": "passed"
+  },
+  "play_upload": "not performed",
+  "play_review": "not submitted",
+  "distribution_signing": "not enrolled in Play App Signing",
+  "full_device_acceptance": "pending; production device migration waits for Play publication"
+}
