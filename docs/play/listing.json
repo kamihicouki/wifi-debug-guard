@@ -1,0 +1,23 @@
+{
+  "status": "draft-not-submitted",
+  "reviewed_on": "2026-11-14",
+  "default_language": "ja-JP",
+  "app_type": "app",
+  "category_proposal": "Tools",
+  "pricing_proposal": "free",
+  "support_url": "https://github.com/kamihicouki/wifi-debug-guard/issues",
+  "support_email": null,
+  "privacy_policy_public_url": "https://github.com/kamihicouki/wifi-debug-guard/blob/main/docs/play/privacy-policy.md",
+  "localizations": {
+    "ja-JP": {
+      "title": "Wi-Fi Debug Guard",
+      "short_description": "指定Wi-Fiに応じてワイヤレスデバッグを自動切替。事前のADB設定が必要です。",
+      "full_description": "Wi-Fi Debug Guard は、指定したWi-Fiアクセスポイントに接続している間、Androidのワイヤレスデバッグの有効化を自動で要求する、ADB利用者向けの補助ツールです。\n\n【事前のADB設定が必要です】\nインストールするだけでは動作しません。信頼できるPCからADBでWRITE_SECURE_SETTINGS権限を明示的に付与し、端末側でワイヤレスデバッグのネットワーク承認とPCのペアリングを行う必要があります。通常のAndroid設定だけではこの権限を付与できません。\n\n【できること】\n・現在接続中のWi-FiをSSIDとBSSIDで登録\n・両方が一致するときにワイヤレスデバッグのONを要求\n・切断、別のWi-Fi、接続先不明、位置情報OFFの場合にOFFを要求\n・通知とアプリ画面で最終評価時点の状態を確認\n・自動管理の開始と停止。管理を有効にした場合は再起動後の復帰を試行\n\n初期状態は停止中で、初回起動だけではデバッグ設定を変更しません。Wi-Fiの登録確定・変更や停止操作ではOFFを要求します。\n\n【位置情報について】\nWi-Fi Debug Guard は、アプリを閉じている間やバックグラウンドでも、指定Wi-Fiに応じてワイヤレスデバッグを切り替えるため、位置情報の権限で取得するWi-Fi名（SSID）とアクセスポイント識別子（BSSID）を使用します。GPS座標や移動履歴は取得しません。登録したWi-Fi情報は端末内に保存し、開発者や外部サーバーへ送信しません。\n\n【制約と注意点】\nAndroid 11以上が必要です。端末、OS、権限や省電力制限によって動作が異なり、すべての機種での動作を保証しません。デバッグ設定の制御は一般アプリ向けに保証されたAPIではありません。表示される設定値ONは、OS側の最終承認やPCとのADB接続成功を保証しません。\n\nSSID/BSSIDはネットワークの安全性を認証するものではなく、偽装可能です。信頼できる私有Wi-Fiでのみ使用してください。周波数帯やメッシュAPの切替でBSSIDが変わると対象外になります。即時遮断を保証するファイアウォールではありません。CPUスリープ、強制停止、権限の失効などで評価やOFF要求が遅れる場合があります。停止・削除の前に端末設定でデバッグOFFを確認してください。\n\n広告、課金、アカウント登録、解析SDK、アプリからの外部送信はありません。オープンソース（MIT）です。\nソースと導入手順: https://github.com/kamihicouki/wifi-debug-guard\nサポート: https://github.com/kamihicouki/wifi-debug-guard/issues"
+    },
+    "en-US": {
+      "title": "Wi-Fi Debug Guard",
+      "short_description": "Switch wireless debugging for one selected Wi-Fi. Requires prior ADB setup.",
+      "full_description": "Wi-Fi Debug Guard helps ADB users request Android wireless debugging ON when connected to one selected Wi-Fi access point, and OFF when the connection no longer matches.\n\nADB SETUP REQUIRED\nInstallation alone is not enough. You must explicitly grant WRITE_SECURE_SETTINGS from a trusted computer using ADB, approve the wireless debugging network on the device, and pair your computer. This permission cannot be granted through the normal Android permission dialog.\n\nFEATURES\n• Register the current Wi-Fi SSID and BSSID.\n• Request debugging ON only when both identifiers match.\n• Request OFF on disconnection, a different or unknown network, or disabled location services.\n• View the most recently evaluated state in the app and notification.\n• Start or stop management. When enabled, the app attempts to resume after reboot.\n\nManagement is stopped by default. A fresh launch does not change debugging settings. Confirming or changing a Wi-Fi registration, or stopping management, requests debugging OFF.\n\nLOCATION ACCESS\nWi-Fi Debug Guard uses location permission to read the Wi-Fi network name (SSID) and access point identifier (BSSID), including in the background or when the app is closed, so it can switch wireless debugging for your selected network. It does not request GPS coordinates or record a movement history. The selected network is stored only on your device and is not sent to the developer or an external server.\n\nLIMITATIONS\nRequires Android 11 or later. Behavior depends on the device, OS, permissions and battery restrictions. The debugging setting is not a control API guaranteed for ordinary apps. A displayed ON setting does not confirm final OS approval or a working ADB connection.\n\nSSID and BSSID can be spoofed and do not authenticate network safety. Use only on trusted private Wi-Fi. Band switching and mesh access points can change the BSSID. This app is not a firewall and cannot guarantee immediate shutdown. CPU sleep, force-stop or revoked permissions can delay checks or prevent disabling debugging. Before stopping or uninstalling, confirm wireless debugging is OFF in device settings.\n\nNo ads, payments, account registration, analytics SDK or app-operated data upload. Open source under MIT.\nSource and setup: https://github.com/kamihicouki/wifi-debug-guard\nSupport: https://github.com/kamihicouki/wifi-debug-guard/issues"
+    }
+  }
+}

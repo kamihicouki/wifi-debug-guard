@@ -15,5 +15,5 @@ jobs:
         with:
           # Avoid the default legacy 'tools' package, unavailable in the SDK repository.
           packages: platform-tools
-      - run: sdkmanager 'platforms;android-34' 'build-tools;34.0.0'
+      - run: sdkmanager 'platforms;android-36' 'build-tools;35.0.0'
       - run: ./verify.sh

@@ -4,19 +4,23 @@
   "unconfigured_service_stays_stopped": "passed",
   "wireless_debugging_unchanged": "passed",
   "original_install_unchanged": "passed",
-  "version": "1.1.1",
+  "version": "1.2.0",
   "date": "2026-11-14",
   "policy_tests": 20,
   "build_debug": "passed",
   "build_unsigned_release": "passed",
   "lint_errors": 0,
   "lint_warnings": {
-    "OldTargetApi": 1,
-    "DataExtractionRules": 1,
-    "SetTextI18n": 6
+    "AndroidGradlePluginVersion": 1,
+    "SetTextI18n": 8
   },
   "public_version_full_on_off_and_reboot_acceptance": "not performed; preserve active device setup",
   "publication_scan": "All tracked public source inspected; private original values, signing material, absolute paths and raw evidence excluded",
   "carbon_review": "Gemini 4 Carbon Medium; see docs/review.md",
-  "boot_receiver_stub_checks": 8
+  "boot_receiver_stub_checks": 10,
+  "setup_policy_tests": 7,
+  "compile_sdk": 36,
+  "target_sdk": 36,
+  "play_submission": "not submitted; account access and final permission review pending",
+  "android_16_runtime": "not yet verified"
 }

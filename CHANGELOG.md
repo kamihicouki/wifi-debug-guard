@@ -1,5 +1,13 @@
 # Changelog
 
+## 1.2.0
+
+- Prepare API 36 builds and location foreground-service declarations for Google Play submission.
+- Add prominent location disclosure and incremental runtime-permission setup.
+- Require disclosure consent before Wi-Fi access and boot restart.
+- Add original app/store artwork, privacy policy, listing and permissions-declaration drafts.
+- Add private upload-key bundle build workflow; no Google Play submission or approval implied.
+
 ## 1.1.1
 
 - Address independently reviewed SSID quoting, service stop races, permission checks and stale error notifications.

@@ -1,14 +1,26 @@
 plugins { id("com.android.application") }
 android {
  namespace = "io.github.kamihicouki.wifidebugguard"
- compileSdk = 34
+ compileSdk = 36
  defaultConfig {
   applicationId = "io.github.kamihicouki.wifidebugguard"
   minSdk = 30
-  targetSdk = 33
-  versionCode = 4
-  versionName = "1.1.1"
+  targetSdk = 36
+  versionCode = 5
+  versionName = "1.2.0"
  }
- buildTypes { getByName("release") { isMinifyEnabled = false } }
+ val uploadStore = providers.environmentVariable("WDG_UPLOAD_STORE").orNull
+ signingConfigs {
+  if (uploadStore != null) create("upload") {
+   storeFile = file(uploadStore)
+   storePassword = providers.environmentVariable("WDG_UPLOAD_PASSWORD").get()
+   keyAlias = providers.environmentVariable("WDG_UPLOAD_ALIAS").get()
+   keyPassword = providers.environmentVariable("WDG_UPLOAD_PASSWORD").get()
+  }
+ }
+ buildTypes { getByName("release") {
+  isMinifyEnabled = false
+  if (uploadStore != null) signingConfig = signingConfigs.getByName("upload")
+ } }
  compileOptions { sourceCompatibility = JavaVersion.VERSION_17; targetCompatibility = JavaVersion.VERSION_17 }
 }
