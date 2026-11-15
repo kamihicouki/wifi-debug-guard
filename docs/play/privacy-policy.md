@@ -1,14 +1,14 @@
 # Wi-Fi Debug Guard プライバシーポリシー
 
-作成日: 2026年11月14日。対象: Wi-Fi Debug Guard（アプリID `io.github.kamihicouki.wifidebugguard`）。開発者: kamihicouki。
+作成日: 2026年11月14日。更新日: 2026年11月15日（1.3.0）。対象: Wi-Fi Debug Guard（アプリID `io.github.kamihicouki.wifidebugguard`）。開発者: kamihicouki。
 
 ## 端末内で使用する情報
 
-Wi-Fi Debug Guardは、指定されたWi-Fiでワイヤレスデバッグを自動管理するため、位置情報の権限を使用して、現在接続中のWi-Fi名（SSID）とアクセスポイント識別子（BSSID）を読み取ります。管理を有効にしている間は、アプリ画面を閉じているときやバックグラウンドでもこの情報を使用します。位置情報のシステム設定や必要な権限が使えない場合、デバッグOFFを要求します。
+Wi-Fi Debug Guardは、指定されたWi-Fiでワイヤレスデバッグを自動管理するため、位置情報の権限を使用して、現在接続中のWi-Fi名（SSID）とアクセスポイント識別子（BSSID）を読み取ります。管理を有効にしている間は、アプリ画面を閉じているときやバックグラウンドでもこの情報を使用します。管理が停止中でも、同意と必要な権限・位置情報ONが揃っている場合は、アプリ画面に現在のWi-Fi判定を表示するために読み取ります。この表示だけではデバッグ設定を変更しません。稼働中の管理サービスは、位置情報のシステム設定や必要な権限が使えない場合にデバッグOFFを要求します。起動前の条件不足でサービスを開始できない場合もあるため、実際のデバッグ状態は端末設定で確認してください。
 
 GPS座標、移動経路、Wi-Fiパスワード、ADBのペアリングコードは取得・保存しません。Androidによるネットワーク承認とPCとのペアリングは、Android自身の機能です。
 
-登録したSSID/BSSID、管理の有効・無効、状態メッセージ、最終評価時刻、権限説明への応答など、設定に必要な情報をアプリ専用の端末内ストレージに保存します。再起動後に動作するため、登録設定には端末保護ストレージを使用します。標準のクラウドバックアップと端末移行から除外する設定ですが、メーカー独自の移行機能まで保証するものではありません。
+登録したSSID/BSSID、現在の管理の有効・無効、起動時の自動開始設定、状態メッセージ、最終評価時刻、権限説明への同意、自動起動を要求した時刻と起動イベントの種類など、設定に必要な情報をアプリ専用の端末内ストレージに保存します。再起動後に動作するため、登録設定には端末保護ストレージを使用します。標準のクラウドバックアップと端末移行から除外する設定ですが、メーカー独自の移行機能まで保証するものではありません。
 
 ## 外部送信・共有
 
@@ -20,7 +20,7 @@ GPS座標、移動経路、Wi-Fiパスワード、ADBのペアリングコード
 
 設定は、ユーザーが変更するか、Androidのアプリ情報からアプリデータを消去するか、アンインストールするまで端末に残ります。開発者が保管するユーザーアカウントやサーバー上のユーザーデータはありません。
 
-管理の停止はアプリ内で行えます。削除や権限取消しの前に管理を停止し、端末の開発者向けオプションでワイヤレスデバッグOFFを確認してください。アプリデータ消去、強制停止、アンインストールだけではデバッグOFFを保証しません。権限はAndroidのアプリ設定で取り消せますが、取り消すと自動管理できなくなる場合があります。
+管理の停止はアプリ内で確認後に行えます。停止すると起動時の自動開始もOFFになります。起動時の自動開始スイッチだけを切り替えても、現在の管理やデバッグ設定は変更しません。削除や権限取消しの前に管理を停止し、端末の開発者向けオプションでワイヤレスデバッグOFFを確認してください。アプリデータ消去、強制停止、アンインストールだけではデバッグOFFを保証しません。権限はAndroidのアプリ設定で取り消せますが、取り消すと自動管理できなくなる場合があります。
 
 ## お問い合わせと外部ページ
 
@@ -34,14 +34,14 @@ GPS座標、移動経路、Wi-Fiパスワード、ADBのペアリングコード
 
 # Wi-Fi Debug Guard Privacy Policy
 
-Prepared: November 14, 2026. App: Wi-Fi Debug Guard (`io.github.kamihicouki.wifidebugguard`). Developer: kamihicouki.
+Prepared: November 14, 2026. Updated: November 15, 2026 (1.3.0). App: Wi-Fi Debug Guard (`io.github.kamihicouki.wifidebugguard`). Developer: kamihicouki.
 
-Wi-Fi Debug Guard uses location permission to read the connected Wi-Fi SSID and BSSID to manage wireless debugging for one selected access point. When management is enabled, it also uses this information in the background or when the app screen is closed. It does not request GPS coordinates, track movement, or store Wi-Fi passwords or ADB pairing codes.
+Wi-Fi Debug Guard uses location permission to read the connected Wi-Fi SSID and BSSID to manage wireless debugging for one selected access point. When management is enabled, it also uses this information in the background or when the app screen is closed. With consent, required permissions and location services enabled, the visible dashboard also reads Wi-Fi information while management is stopped. Reading the dashboard alone does not change debugging settings. It does not request GPS coordinates, track movement, or store Wi-Fi passwords or ADB pairing codes.
 
-The selected network, enabled state, status, check time and setup choices are stored in the app's local storage. Device-protected storage supports startup after reboot. Standard cloud backup and device transfer are excluded; manufacturer-specific migration cannot be guaranteed.
+The selected network, management and boot-start preferences, status, check time, disclosure consent, and the time and action of automatic-start requests are stored in the app's local storage. Device-protected storage supports startup after reboot. Standard cloud backup and device transfer are excluded; manufacturer-specific migration cannot be guaranteed.
 
 The app has no Internet permission, advertising, analytics SDK or server upload. The developer does not receive your Wi-Fi identifiers or location from the app, or sell or share them. Diagnostic status logs omit SSID/BSSID, passwords and pairing codes. Enabling Android debugging lets computers approved by you use ADB; it does not send information to the app developer.
 
-Local settings remain until changed, cleared through Android app settings, or removed with the app. There is no developer-operated user account or server-side user dataset. Stop management and confirm debugging is OFF in Android settings before clearing data or uninstalling. Removing or force-stopping the app alone does not guarantee debugging is OFF. Permissions can be revoked in Android settings and may be required for the feature to work.
+Local settings remain until changed, cleared through Android app settings, or removed with the app. There is no developer-operated user account or server-side user dataset. Confirming stop also disables startup on boot. Toggling boot startup alone leaves current management unchanged. Stop management and confirm debugging is OFF in Android settings before clearing data or uninstalling. Removing or force-stopping the app alone does not guarantee debugging is OFF. Permissions can be revoked in Android settings and may be required for the feature to work.
 
 Privacy questions: [public GitHub Issues](https://github.com/kamihicouki/wifi-debug-guard/issues). Do not post personal information, network identifiers, IP addresses, device serials, keys or pairing codes. External services have their own policies. This policy will be updated when the app's data handling changes.

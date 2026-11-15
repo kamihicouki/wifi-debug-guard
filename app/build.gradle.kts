@@ -3,11 +3,11 @@ android {
  namespace = "io.github.kamihicouki.wifidebugguard"
  compileSdk = 36
  defaultConfig {
-  applicationId = "io.github.kamihicouki.wifidebugguard"
+  applicationId = providers.gradleProperty("guardApplicationId").orElse("io.github.kamihicouki.wifidebugguard").get()
   minSdk = 30
   targetSdk = 36
-  versionCode = 5
-  versionName = "1.2.0"
+  versionCode = 6
+  versionName = "1.3.0"
  }
  val uploadStore = providers.environmentVariable("WDG_UPLOAD_STORE").orNull
  signingConfigs {

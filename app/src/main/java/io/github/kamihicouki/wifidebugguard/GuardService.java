@@ -22,7 +22,7 @@ public final class GuardService extends Service {
   super.onCreate(); prefs = createDeviceProtectedStorageContext().getSharedPreferences("guard",0);
   NotificationManager nm = getSystemService(NotificationManager.class);
   nm.createNotificationChannel(new NotificationChannel("guard","指定Wi-Fiのデバッグ自動管理",NotificationManager.IMPORTANCE_LOW));
-  if (!prefs.getBoolean("enabled",false)) { stopSelf(); return; }
+  if (!prefs.getBoolean("enabled",false)) { prefs.edit().putLong("checked",System.currentTimeMillis()).apply(); stopSelf(); return; }
   if (prefs.getInt("disclosure_version",0)<1) {
    startupFailed=true;
    disableAfterFailure();
@@ -64,6 +64,7 @@ public final class GuardService extends Service {
   // nor replace the Activity's warning that disabling debugging failed.
   if (destroyed || startupFailed) return false;
   if (!prefs.getBoolean("enabled",false)) {
+   prefs.edit().putLong("checked",System.currentTimeMillis()).apply();
    handler.removeCallbacksAndMessages(null);
    stopSelf();
    return false;
@@ -118,6 +119,20 @@ public final class GuardService extends Service {
   }
  }
  @Override public int onStartCommand(Intent i,int flags,int id) { return evaluate()?START_STICKY:START_NOT_STICKY; }
+ @Override protected void dump(java.io.FileDescriptor fd,java.io.PrintWriter out,String[] args) {
+  GuardSnapshot s=GuardSnapshot.read(this);
+  out.println("Wi-Fi Debug Guard status");
+  out.println("package="+getPackageName());
+  out.println("enabled="+s.enabled+" autoStart="+s.autoStart+" serviceRunning="+s.serviceRunning);
+  out.println("debugSetting="+s.debugSetting+" targetConfigured="+s.targetConfigured+" wifiConnected="+s.wifiConnected+" targetMatched="+s.targetMatched);
+  out.println("consent="+s.consent+" securePermission="+s.securePermission+" finePermission="+s.finePermission+" backgroundPermission="+s.backgroundPermission+" notificationPermission="+s.notificationPermission+" locationEnabled="+s.locationEnabled);
+  out.println("checked="+s.checked+" lastBootRequest="+prefs.getLong("last_boot_request_at",0)+" bootAction="+prefs.getString("last_boot_request_action","none"));
+ }
  @Override public IBinder onBind(Intent i) { return null; }
- @Override public void onDestroy() { destroyed=true; handler.removeCallbacksAndMessages(null); if (receiverRegistered) unregisterReceiver(receiver); if (callbackRegistered) getSystemService(ConnectivityManager.class).unregisterNetworkCallback(callback); super.onDestroy(); }
+ @Override public void onDestroy() {
+  if(prefs!=null) {
+   if(!startupFailed && prefs.getBoolean("enabled",false)) updateStatus("サービス停止：自動管理は現在動作していません。デバッグ状態を端末設定で確認して再開してください");
+   else prefs.edit().putLong("checked",System.currentTimeMillis()).apply();
+  }
+  destroyed=true; handler.removeCallbacksAndMessages(null); if (receiverRegistered) unregisterReceiver(receiver); if (callbackRegistered) getSystemService(ConnectivityManager.class).unregisterNetworkCallback(callback); super.onDestroy(); }
 }
