@@ -1,5 +1,10 @@
 # Changelog
 
+## 1.4.0
+
+- Notify once on the device when the running Shizuku service Binder dies during automatic management.
+- Treat an unobserved Binder as unconfirmed and retain only the most recent stop and notification-request timestamps and their counts for local diagnostics.
+
 ## 1.3.0
 
 - Separate live management, current Android debugging setting, Wi-Fi matching and required setup into dashboard cards.
@@ -7,7 +12,7 @@
 - Add an independent boot-start switch that leaves current management unchanged, with fallback to the previous enabled setting on upgrade.
 - Check consent, saved target, permissions and location before boot startup; resume app updates only when management is enabled.
 - Register a new Wi-Fi target without stopping management or changing debugging settings while stopped.
-- Add an application-ID build override for compatible updates of the private device package, and expand pure policy/state checks to 54 cases.
+- Add an application-ID build override for compatible updates of the private device package, and expand pure policy/state checks to 58 cases.
 - Device startup and reboot acceptance remain unconfirmed; no Play submission or publication implied.
 
 ## 1.2.0

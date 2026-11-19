@@ -1,6 +1,6 @@
 # Wi-Fi Debug Guard プライバシーポリシー
 
-作成日: 2026年11月14日。更新日: 2026年11月15日（1.3.0）。対象: Wi-Fi Debug Guard（アプリID `io.github.kamihicouki.wifidebugguard`）。開発者: kamihicouki。
+作成日: 2026年11月14日。更新日: 2026年11月19日（1.4.0）。対象: Wi-Fi Debug Guard（アプリID `io.github.kamihicouki.wifidebugguard`）。開発者: kamihicouki。
 
 ## 端末内で使用する情報
 
@@ -8,7 +8,7 @@ Wi-Fi Debug Guardは、指定されたWi-Fiでワイヤレスデバッグを自�
 
 GPS座標、移動経路、Wi-Fiパスワード、ADBのペアリングコードは取得・保存しません。Androidによるネットワーク承認とPCとのペアリングは、Android自身の機能です。
 
-登録したSSID/BSSID、現在の管理の有効・無効、起動時の自動開始設定、状態メッセージ、最終評価時刻、権限説明への同意、自動起動を要求した時刻と起動イベントの種類など、設定に必要な情報をアプリ専用の端末内ストレージに保存します。再起動後に動作するため、登録設定には端末保護ストレージを使用します。標準のクラウドバックアップと端末移行から除外する設定ですが、メーカー独自の移行機能まで保証するものではありません。
+登録したSSID/BSSID、現在の管理の有効・無効、起動時の自動開始設定、状態メッセージ、最終評価時刻、権限説明への同意、自動起動を要求した時刻と起動イベントの種類など、設定に必要な情報をアプリ専用の端末内ストレージに保存します。再起動後に動作するため、登録設定には端末保護ストレージを使用します。Shizukuの停止通知の診断用に、直近の停止と通知要求の時刻・件数を端末内に保存します。標準のクラウドバックアップと端末移行から除外する設定ですが、メーカー独自の移行機能まで保証するものではありません。
 
 ## 外部送信・共有
 
@@ -34,11 +34,11 @@ GPS座標、移動経路、Wi-Fiパスワード、ADBのペアリングコード
 
 # Wi-Fi Debug Guard Privacy Policy
 
-Prepared: November 14, 2026. Updated: November 15, 2026 (1.3.0). App: Wi-Fi Debug Guard (`io.github.kamihicouki.wifidebugguard`). Developer: kamihicouki.
+Prepared: November 14, 2026. Updated: November 19, 2026 (1.4.0). App: Wi-Fi Debug Guard (`io.github.kamihicouki.wifidebugguard`). Developer: kamihicouki.
 
 Wi-Fi Debug Guard uses location permission to read the connected Wi-Fi SSID and BSSID to manage wireless debugging for one selected access point. When management is enabled, it also uses this information in the background or when the app screen is closed. With consent, required permissions and location services enabled, the visible dashboard also reads Wi-Fi information while management is stopped. Reading the dashboard alone does not change debugging settings. It does not request GPS coordinates, track movement, or store Wi-Fi passwords or ADB pairing codes.
 
-The selected network, management and boot-start preferences, status, check time, disclosure consent, and the time and action of automatic-start requests are stored in the app's local storage. Device-protected storage supports startup after reboot. Standard cloud backup and device transfer are excluded; manufacturer-specific migration cannot be guaranteed.
+The selected network, management and boot-start preferences, status, check time, disclosure consent, and the time and action of automatic-start requests are stored in the app's local storage. Device-protected storage supports startup after reboot. For Shizuku stop-notification diagnostics, the most recent stop and notification request timestamps and their counts are also stored locally. Standard cloud backup and device transfer are excluded; manufacturer-specific migration cannot be guaranteed.
 
 The app has no Internet permission, advertising, analytics SDK or server upload. The developer does not receive your Wi-Fi identifiers or location from the app, or sell or share them. Diagnostic status logs omit SSID/BSSID, passwords and pairing codes. Enabling Android debugging lets computers approved by you use ADB; it does not send information to the app developer.
 

@@ -9,6 +9,7 @@ import android.util.Log;
 public final class GuardService extends Service {
  private final Handler handler = new Handler(Looper.getMainLooper());
  private SharedPreferences prefs;
+ private ShizukuMonitor shizuku;
  private String lastStatus = "";
  private boolean destroyed, startupFailed, foregroundStarted, receiverRegistered, callbackRegistered;
  private final Runnable poll = new Runnable() { public void run() { if (evaluate()) handler.postDelayed(this,15000); } };
@@ -46,12 +47,23 @@ public final class GuardService extends Service {
    getSystemService(ConnectivityManager.class).registerNetworkCallback(new NetworkRequest.Builder().addTransportType(NetworkCapabilities.TRANSPORT_WIFI).build(), callback);
    callbackRegistered=true;
    handler.post(poll);
+   startShizukuMonitor();
   } catch (RuntimeException e) {
    startupFailed=true;
    Log.e("WifiDebugGuard","service initialization failed",e);
    disableAfterFailure();
    updateStatus("常駐を開始できません。位置情報ON・正確/常に許可を確認してアプリから再開してください。デバッグOFFは端末設定で確認してください");
    stopSelf();
+  }
+ }
+ private void startShizukuMonitor() {
+  try {
+   shizuku = new ShizukuMonitor(this, handler);
+   shizuku.start();
+  } catch (RuntimeException e) {
+   if (shizuku != null) shizuku.close();
+   shizuku = null;
+   Log.w("WifiDebugGuard","Shizuku monitoring could not start",e);
   }
  }
  private static final String LocationManagerAction="android.location.MODE_CHANGED";
@@ -126,6 +138,7 @@ public final class GuardService extends Service {
   out.println("enabled="+s.enabled+" autoStart="+s.autoStart+" serviceRunning="+s.serviceRunning);
   out.println("debugSetting="+s.debugSetting+" targetConfigured="+s.targetConfigured+" wifiConnected="+s.wifiConnected+" targetMatched="+s.targetMatched);
   out.println("consent="+s.consent+" securePermission="+s.securePermission+" finePermission="+s.finePermission+" backgroundPermission="+s.backgroundPermission+" notificationPermission="+s.notificationPermission+" locationEnabled="+s.locationEnabled);
+  if (shizuku != null) shizuku.dump(out);
   out.println("checked="+s.checked+" lastBootRequest="+prefs.getLong("last_boot_request_at",0)+" bootAction="+prefs.getString("last_boot_request_action","none"));
  }
  @Override public IBinder onBind(Intent i) { return null; }
@@ -134,5 +147,6 @@ public final class GuardService extends Service {
    if(!startupFailed && prefs.getBoolean("enabled",false)) updateStatus("サービス停止：自動管理は現在動作していません。デバッグ状態を端末設定で確認して再開してください");
    else prefs.edit().putLong("checked",System.currentTimeMillis()).apply();
   }
+  if (shizuku != null) shizuku.close();
   destroyed=true; handler.removeCallbacksAndMessages(null); if (receiverRegistered) unregisterReceiver(receiver); if (callbackRegistered) getSystemService(ConnectivityManager.class).unregisterNetworkCallback(callback); super.onDestroy(); }
 }

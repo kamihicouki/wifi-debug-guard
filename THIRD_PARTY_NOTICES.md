@@ -6,3 +6,5 @@
 - License: https://www.apache.org/licenses/LICENSE-2.0
 
 Android SDK, Android Gradle Plugin, JDK and Gradle distributions are not included in this repository. Their respective terms apply.
+
+The app includes [Shizuku API and provider](https://github.com/RikkaApps/Shizuku-API) (13.1.5), copyright RikkaW, licensed under the MIT license. The [license](app/src/main/assets/licenses/shizuku-api.txt) is included in the app.
